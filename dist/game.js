@@ -1,7 +1,8 @@
 import * as T from 'three';
-import {Battle,LEVELS,WEAPONS,clamp} from './engine.js';
-import {Visuals,part,material} from './visuals.js';
-import {SoftwareRenderer} from './software.js';
+import {Battle,LEVELS,WEAPONS,clamp} from './engine.js?v=20261018-2';
+import {Visuals,part,material} from './visuals.js?v=20261018-2';
+import {SoftwareRenderer} from './software.js?v=20261018-2';
+document.documentElement.dataset.build='20261018-2';
 const $=id=>document.getElementById(id),canvas=$('world');
 let profile={best:0,highest:0,checkpoint:0,unlocked:['rifle'],quality:'auto',reduced:matchMedia('(prefers-reduced-motion:reduce)').matches,assist:true,invert:false};
 try{const p=JSON.parse(localStorage.getItem('dreadmarch-profile'));if(p&&typeof p==='object'){profile={...profile,...p};profile.highest=clamp(Number(profile.highest)||0,0,11);profile.checkpoint=clamp(Number(profile.checkpoint)||0,0,11);profile.best=Math.max(0,Number(profile.best)||0);profile.unlocked=[...new Set(['rifle',...(Array.isArray(p.unlocked)?p.unlocked:[]).filter(x=>WEAPONS[x])])];}}catch{}
