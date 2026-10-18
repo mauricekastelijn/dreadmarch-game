@@ -1,0 +1,6 @@
+import {cp,mkdir,readFile,rm,writeFile} from 'node:fs/promises';
+import path from 'node:path';import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url)),out=path.join(root,'_site');
+for(const p of ['index.html','style.css','game.js','engine.js','visuals.js','software.js','vendor/three.module.js','vendor/three.core.js','vendor/GLTFLoader.js','vendor/SkeletonUtils.js','vendor/BufferGeometryUtils.js','models/soldier.json','models/demon.json','models/skeleton.json']){const b=await readFile(path.join(root,'dist',p));if(!b.length)throw Error(`Missing asset ${p}`);if(p.endsWith('.glb')&&b.toString('utf8',0,4)!=='glTF')throw Error(`Invalid GLB ${p}`);}
+for(const name of ['soldier','demon','skeleton']){const m=JSON.parse(await readFile(path.join(root,'dist/models',name+'.json'),'utf8'));const parts=await Promise.all(m.parts.map(p=>readFile(path.join(root,'dist/models',p))));const b=Buffer.concat(parts);if(b.length!==m.byteLength||b.toString('utf8',0,4)!=='glTF')throw Error('Incomplete model '+name);}
+await rm(out,{recursive:true,force:true});await mkdir(out,{recursive:true});await cp(path.join(root,'dist'),path.join(out,'dist'),{recursive:true});await cp(path.join(root,'index.html'),path.join(out,'index.html'));await writeFile(path.join(out,'.nojekyll'),'');console.log('Dreadmarch release built in _site/');

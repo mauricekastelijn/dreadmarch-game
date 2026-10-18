@@ -1,0 +1,8 @@
+{
+  "byteLength": 189404,
+  "sha256": "95f5ca2f6851d4c47d8a8830d040177e5e19eee7fbdcd78cc517aed4e6ba70a7",
+  "parts": [
+    "skeleton/000.bin",
+    "skeleton/001.bin"
+  ]
+}
